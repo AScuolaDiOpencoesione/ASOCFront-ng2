@@ -1,0 +1,12 @@
+<input *ngIf="!file_uploaded" type="file" (change)="loadFile($event, field_name)">
+<input type="hidden" [required]="required" name="{{field_name}}" value="{{upload_url}}">
+<div *ngIf="file_uploading"><i class="fa fa-cog fa-spin fa-fw"></i></div>
+<div *ngIf="file_uploaded">
+    <span class="preview">
+        <a href="{{upload_url}}" target="_blank">
+            <span *ngIf="mode=='file'">{{upload_url}}</span>
+            <img *ngIf="mode=='img'" src="{{upload_url}}">
+        </a>
+    </span>
+    <span class="remove" (click)="removeFile()">X</span>
+</div>

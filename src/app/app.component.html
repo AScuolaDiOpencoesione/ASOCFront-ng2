@@ -1,3 +1,32 @@
-<h1>
-  {{title}}
-</h1>
+<md-toolbar>
+  <a routerLink="/">ASOC Platform</a>
+  <!-- This fills the remaining space of the current row -->
+  <span style="flex: 1 1 auto;"></span>
+
+  <a routerLink="/login" *ngIf="!auth.userLoggedIn()" ><i class="fa fa-fw fa-sign-in"></i>Login TeamScuola</a>
+  <a routerLink="/signup" *ngIf="!auth.userLoggedIn()" ><i class="fa fa-fw fa-sign-in"></i>Registrazione Piattaforma</a>
+  
+  <a *ngIf="auth.userLoggedIn()" routerLink="/profile/" ><i class="fa fa-fw fa-user"></i>{{profile.data?.__zone_symbol__value.user}}</a>
+  <a *ngIf="auth.userLoggedIn()" routerLink="/logout"   ><i class="fa fa-fw fa-sign-out"></i>Logout</a>
+</md-toolbar>
+
+<md-sidenav-layout>
+  <md-sidenav opened="true" mode="side">
+    <div *ngIf="auth.userLoggedIn()">
+      <a class="btn btn-link" *ngIf="profile.data.__zone_symbol__value[profile.data.__zone_symbol__value.type].id" [routerLink]="'/profile/edit/'+profile.data.__zone_symbol__value.type+'/'+profile.data.__zone_symbol__value[profile.data.__zone_symbol__value.type].id">Modifica il Profilo</a>
+      <a class="btn btn-link" *ngIf="!profile.data.__zone_symbol__value[profile.data.__zone_symbol__value.type].id" [routerLink]="'/profile/create/'+profile.data.__zone_symbol__value.type">Crea il Profilo</a>
+      <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/1/edit/'+profile.data.__zone_symbol__value.reports.lesson_1_form">Compila Report Lezione 1</a>
+      <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/2/edit/'+profile.data.__zone_symbol__value.reports.lesson_2_form" disabled>Compila Report Lezione 2</a>
+      <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/3/edit/'+profile.data.__zone_symbol__value.reports.lesson_3_form" disabled>Compila Report Lezione 3</a>
+      <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/4/edit/'+profile.data.__zone_symbol__value.reports.lesson_3_form_event" disabled>Compila Report Open Data Day</a>
+      <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/5/edit/'+profile.data.__zone_symbol__value.reports.lesson_3_form_post" disabled>Compila Report Post Open Data Day</a>
+      <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/6/edit/'+profile.data.__zone_symbol__value.reports.lesson_4_form" disabled>Compila Report Lezione 4</a>
+      <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/7/edit/'+profile.data.__zone_symbol__value.reports.lesson_5_form" disabled>Compila Report Lezione 5</a>
+    </div>
+  </md-sidenav>
+
+<router-outlet>
+  
+</router-outlet>
+
+</md-sidenav-layout>

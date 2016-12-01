@@ -1,0 +1,65 @@
+<div class="scrollable" id="scrollable">
+    <div class="hero">
+    <h1>{{name}}</h1>
+    <p [innerHTML]="description"></p>
+    </div>
+    <form class="col-md-10 col-md-offset-1" style="margin-top:20px;">
+        <!-- Sections wrapper -->
+        
+        <div class="form-group" *ngFor="let item of fields;let idx=index" >
+             
+            <div class="hidden">{{item|json}}</div>            
+
+            <div class="row">
+                <label class="form-label col-md-12" >
+                    <span [innerHtml]="item.label"></span>
+                    <span *ngIf="item.required">*</span> 
+                </label>
+                <div class="col-md-10 col-md-offset-1 help-block" [innerHtml]="item.description"></div>
+                <div class="col-md-12" style="">
+                    <input *ngIf="item.t.t == 'str'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" [required]="item.required" formnovalidate type="text" name="{{item.field_name}}">
+                    <!--<textarea *ngIf="item.t.t == 'ckedit'" [(ngModel)]="report[item.field_name]" class="form-control ckedit" [required]="item.required" formnovalidate type="text" name="{{item.field_name}}"></textarea>-->
+                    <ckeditor *ngIf="item.t.t == 'ckedit'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" name="{{item.field_name}}"></ckeditor>
+                    <input *ngIf="item.t.t == 'url'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="text" name="{{item.field_name}}" [required]="item.required" formnovalidate >
+                    <input *ngIf="item.t.t == 'email'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="email" name="{{item.field_name}}" [required]="item.required" formnovalidate >
+                    <mn-upload *ngIf="item.t.t == 'file'" [disabled]="!editable" [mode]="'file'" [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (fileuploaded)="fileuploaded(x)" [field_name]="item.field_name"></mn-upload>
+                    <mn-upload *ngIf="item.t.t == 'img'" [disabled]="!editable"  [mode]="'img'"  [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (fileuploaded)="fileuploaded(x)" [field_name]="item.field_name"></mn-upload>
+                    <div *ngIf="item.t.t == 'boolean'">
+                        <p class="col-md-9 help-block" [innerHtml]="item.help_text"></p>
+                        <div class="col-md-3">
+                            <div class="radio">
+                            <label class="col-md-6 ">
+                                <input type="radio" [disabled]="!editable" [(ngModel)]="report[item.field_name]" value="true" name="{{item.field_name}}">SI
+                            </label>
+                            </div>
+                            <div class="radio">
+                            <label class="col-md-6">
+                                <input type="radio" [disabled]="!editable" [(ngModel)]="report[item.field_name]" checked value="false" name="{{item.field_name}}">NO
+                            </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <select *ngIf="item.t.t == 'select'" [disabled]="!editable"  class="form-control" [(ngModel)]="report[item.field_name]" formnovalidate [required]="item.required" name="{{item.field_name}}">
+                        <option value="">--- Seleziona una delle opzioni ---</option>
+                        <option *ngFor="let c of item.choices" value="{{c.value}}">{{c.display_name}}</option> 
+                    </select>
+                    <div *ngIf="item.t.t == 'multiple choice'" >
+                        <div *ngFor="let c of item.choices"> <input [disabled]="!editable" [(ngModel)]="report[item.field_name]" type="checkbox" formnovalidate data-on="Si" data-off="No" data-onstyle="success" (change)="setSelected($event, item.field_name)" data-offstyle="danger" name="{{item.field_name}}" value="{{c.value}}"> 
+                            <span [innerHtml]="c.display_name"> </span>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="item.t.t != 'boolean' && item.t.t != 'multiple choice' && item.help_text != null">
+                <div class="col-md-6 col-md-offset-2 help-block" [innerHtml]="item.help_text"></div>
+            </div>
+            <div class="row" *ngIf="item.number != ''"><hr class="col-md-8"></div>
+        </div>
+        <button (click)="storeData($event)" class="btn btn-success"><i class="fa fa-fw fa-save"></i> Salva</button>
+        <a [attr.href]="'http://www.ascuoladiopencoesione.it/blogs/'+form_id+'/111/'+report_id+'?preview=true'" class="btn btn-info"><i class="fa fa-fw fa-eye"></i> Anteprima</a>
+        <button (click)="submitData($event)" class="btn btn-success"><i class="fa fa-fw fa-send"></i> Invia</button>
+        <button (click)="storeAndSubmitData($event)" class="btn btn-success"><i class="fa fa-fw fa-save"></i>&amp;<i class="fa fa-fw fa-send"></i> Salva e invia</button> 
+    </form>
+    
+</div>

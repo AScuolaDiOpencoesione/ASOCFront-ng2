@@ -1,0 +1,45 @@
+<div _ngcontent-hau-48="" class="row wrapper border-bottom white-bg page-heading">
+    <div _ngcontent-hau-48="" class="col-lg-10">
+        <h2 _ngcontent-hau-48="">{{config.name}}</h2>
+        <ol _ngcontent-hau-48="" class="breadcrumb">
+            <li _ngcontent-hau-48="">
+                <a _ngcontent-hau-48="" href="#">Home</a>
+            </li>
+            <li _ngcontent-hau-48="" class="active">
+                <strong _ngcontent-hau-48="">{{config.name}}</strong>
+            </li>
+        </ol>
+    </div>
+    <div _ngcontent-hau-48="" class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div filter-list [template]="filter_template"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <table class="footable table table-stripped toggle-arrow-tiny default breakpoint footable-loaded" data-page-size="15">
+                        <thead head-list [template]="head_template"></thead>
+                        <tbody list-item *ngFor="let item of items" [item]="item" [template]="template" [management_service]="config.datasource_mgmt"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td [attr.colspan]="config.col_num" class="footable-visible">
+                                    <ul class="pagination pull-right">
+                                        <li class="footable-page-arrow" (click)="goto(-1)"><a data-page="prev" >‹</a></li>
+                                        <li class="footable-page-arrow" (click)="goto(1)"><a data-page="next" >›</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

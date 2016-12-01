@@ -1,0 +1,14 @@
+<table class="footable table table-stripped toggle-arrow-tiny default breakpoint footable-loaded" data-page-size="15">
+    <thead head-list [template]="head_template"></thead>
+    <tbody list-item *ngFor="let item of items" [item]="item" [template]="template" [management_service]="config.datasource_mgmt" (selecteditem)="selectitem(item)"></tbody>
+    <tfoot>
+        <tr>
+            <td [attr.colspan]="config.col_num" class="footable-visible">
+                <ul class="pagination pull-right">
+                    <li class="footable-page-arrow" (click)="goto(-1)"><a data-page="prev" >‹</a></li>
+                    <li class="footable-page-arrow" (click)="goto(1)"><a data-page="next" >›</a></li>
+                </ul>
+            </td>
+        </tr>
+    </tfoot>
+</table>

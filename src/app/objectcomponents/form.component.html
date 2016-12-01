@@ -1,0 +1,86 @@
+<div>
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>{{config.operation}} {{config.name}}</h2>
+        </div>
+        <div _ngcontent-hau-48="" class="col-lg-2">
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox">
+            <div class="ibox-content add-form">
+                <div class="row">
+                    <div class="col-md-12" id="{{name}}" [innerHtml]="description"></div>
+                    <form class="col-md-10 col-md-offset-1" style="margin-top:20px;">
+                        <div class="form-group" [ngClass]="{visible:isItemVisible(item), hidden:!isItemVisible(item), 'has-error':errormsg(item.name)}" *ngFor="let item of fields;let idx=index" >
+                            <div class="hidden">{{item|json}}</div>
+                            
+                            <input type="hidden" *ngIf="item.value != null" name="{{item.name}}" value="{{item.value}}">
+                            
+                            <div class="row" *ngIf="item.type == 'multiple choice'">
+                                <div class="col-md-6 col-md-offset-2 help-block" [innerHtml]="item.help_text"></div>
+                            </div>
+                            <div class="row" *ngIf="item.value == null">
+                                <label class="form-label col-md-2" >
+                                    <span *ngIf="item.index != ''">{{item.index}}.</span>
+                                    <span [innerHtml]="item.label"></span>
+                                    <span *ngIf="item.required">*</span> 
+                                </label>
+                                <div class="col-md-6">
+                                    <input *ngIf="item.type == 'string' && item.long_text == false" class="form-control" [(ngModel)]="formdata[item.name]" [required]="item.required" formnovalidate (change)="watchDependents($event, item.name)" type="text" name="{{item.name}}">
+                                    <ckeditor *ngIf="(item.type == 'string' || item.type=='str') && item.long_text == true" [(ngModel)]="formdata[item.name]" name="{{item.name}}"></ckeditor>
+                                    <input *ngIf="item.type == 'integer'" [(ngModel)]="formdata[item.name]" class="form-control" type="text" name="{{item.name}}" [required]="item.required" formnovalidate (change)="watchDependents($event, item.name)">
+                                    <input *ngIf="item.type == 'float'" [(ngModel)]="formdata[item.name]" class="form-control" type="text" name="{{item.name}}" [required]="item.required" formnovalidate (change)="watchDependents($event, item.name)">
+                                    <input *ngIf="item.type == 'date'" [(ngModel)]="formdata[item.name]" class="form-control" type="date" name="{{item.name}}" [required]="item.required" formnovalidate (change)="watchDependents($event, item.name)">
+                                    <input *ngIf="item.type == 'email'" [(ngModel)]="formdata[item.name]" class="form-control" type="email" name="{{item.name}}" [required]="item.required" formnovalidate (change)="watchDependents($event, item.name)">
+                                    <mn-upload *ngIf="item.type == 'url'" [mode]="'img'" name="{{item.name}}"  [(ngModel)]="formdata[item.name]" [field_name]="item.name"></mn-upload>
+                                    <!--<mn-upload *ngIf="item.type == 'field'" class="form-control"  name="{{item.name}}" [(ngModel)]="formdata[item.name]" [field_name]="item.name"></mn-upload>-->
+                                    <div *ngIf="item.type == 'boolean'">
+                                        <p class="col-md-9 help-block" [innerHtml]="item.help_text"></p>
+                                        <div class="col-md-3">
+                                            <div class="radio">
+                                            <label class="col-md-6 ">
+                                                <input type="radio" [(ngModel)]="formdata[item.name]" value="true" (change)="watchDependents($event, item.name)" name="{{item.name}}">SI
+                                            </label>
+                                            </div>
+                                            <div class="radio">
+                                            <label class="col-md-6">
+                                                <input type="radio"  [(ngModel)]="formdata[item.name]" checked value="false" (change)="watchDependents($event, item.name)" name="{{item.name}}">NO
+                                            </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <select *ngIf="item.type == 'choice'"  [(ngModel)]="formdata[item.name]" class="form-control" formnovalidate [required]="item.required" (change)="watchDependents($event, item.name)" name="{{item.name}}">
+                                        <option value="">--- Seleziona una delle opzioni ---</option>
+                                        <option *ngFor="let c of item.choices" [ngClass]="{visible:isOptionVisible(item.name, c.value, c.additionals), hidden:!isOptionVisible(item.name, c.value, c.additionals)}" value="{{c.value}}">{{c.display_name}}</option> 
+                                    </select>
+                                    <div *ngIf="item.type == 'multiple choice'" >
+                                        <div *ngFor="let c of item.choices"> <input  [(ngModel)]="formdata[item.name]" type="checkbox" formnovalidate data-on="Si" data-off="No" data-onstyle="success" (change)="watchDependents($event, item.name); setSelected($event, item.name)" data-offstyle="danger" name="{{item.name}}" value="{{c.value}}"> <span [innerHtml]="c.display_name"> </span></div> 
+                                    </div>
+                                    <input *ngIf="item.type == 'money'" [(ngModel)]="formdata[item.name]" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="item.type != 'boolean' && item.type != 'multiple choice'">
+                                <div class="col-md-6 col-md-offset-2 help-block" [innerHtml]="item.help_text"></div>
+                            </div>
+                            <div class="row" *ngIf="item.number != ''"><hr class="col-md-8"></div>
+                        </div>
+                        <!-- Sections wrapper -->
+                        <div *ngIf="hasSections()">
+                            <div [ngClass]="{visible:isVisible(sec), hidden:!isVisible(sec)}" *ngFor="let sec of sectionKeys()">
+                                <button (click)="setActive(prevSection(sec))" *ngIf="sectionIndex(sec)>0" class="btn btn-info"><i class="fa fa-fw fa-chevron-left"></i> Indietro</button>   
+                                <button (click)="setActive(nextSection(sec))" *ngIf="!sectionLast(sec)" class="btn btn-info">Avanti <i class="fa fa-fw fa-chevron-right"></i></button>   
+                                <button *ngIf="sectionLast(sec)" (click)="submitData($event)" class="btn btn-success"><i class="fa fa-fw fa-save"></i> Salva e invia</button>    
+                            </div>
+                        </div>
+                        <!-- Sections wrapper -->
+                        <div *ngIf="!hasSections()">
+                                <button (click)="submitData($event)" class="btn btn-success"><i class="fa fa-fw fa-save"></i> Salva e invia</button>    
+                        </div>       
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

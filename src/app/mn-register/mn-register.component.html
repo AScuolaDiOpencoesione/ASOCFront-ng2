@@ -1,0 +1,8 @@
+<form style="width:90%; margin-left:5%">
+	<h1>Registrazione</h1>
+    <div *ngIf="error" class="alert alert-danger">{{error_msg}}</div>
+    <md-input  style="width:100%" [(ngModel)]="register.username" type="text" name="username" id="name" placeholder="UserName"></md-input>
+    <md-input  style="width:100%" [(ngModel)]="register.email" type="text" name="email" id="email" placeholder="Indirizzo Mail"></md-input>
+    <md-input  style="width:100%" [(ngModel)]="register.password" type="password" name="password" id="pwd" placeholder="Password"></md-input>
+	<button md-raised-button color="primary" (click)="doRegister()" name="op" value="login">Registrati</button>
+</form>

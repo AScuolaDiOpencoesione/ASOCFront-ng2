@@ -1,0 +1,23 @@
+<div>
+    <div *ngIf="!auth.userLoggedIn()" class="col-md-12">
+        <div class="row">
+            <a class="col-md-4 btn btn-large btn-default" routerLink="/login"><i class="fa fa-fw fa-group"></i><h2>Login Team Scuola</h2></a>
+            <a class="col-md-4 btn btn-large btn-default" routerLink="/login"><i class="fa fa-fw fa-university"></i><h2>Login Docente</h2></a>
+            <a class="col-md-4 btn btn-large btn-default" routerLink="/login"><i class="fa fa-fw fa-university"></i><h2>Login Associazione/EDIC</h2></a>
+        </div>
+        <div class="row" style="margin-top:20px">
+            <a class="col-md-6 btn btn-large btn-default" routerLink="/signup"><i class="fa fa-fw fa-signup"></i><h2>Registrazione Docente</h2></a>
+            <a class="col-md-6 btn btn-large btn-default" routerLink="/signup"><i class="fa fa-fw fa-signup"></i><h2>Registrazione Associazione/EDIC</h2></a>
+        </div>
+    </div>
+    <div *ngIf="auth.userLoggedIn() && !profile.hasRole('team')" class="col-md-12">
+        <div class="row">
+            Grazie per essere entrati nella piattaforma! Potete procedere al <a href="http://forum.ascuoladiopencoesione.it/">Forum di ASOC</a>!
+        </div>
+    </div>
+    <div *ngIf="auth.userLoggedIn() && profile.hasRole('team')" class="col-md-12">
+        <div class="row">
+            Sulla sinistra trovate tutti i report da compilare o compilati da voi.
+        </div>
+    </div>
+</div>

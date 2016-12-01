@@ -1,0 +1,16 @@
+<form style="width:90%; margin-left:5%">
+    <h1>Login</h1>
+    <div *ngIf="error" class="alert alert-danger">{{error_msg}}</div>
+    <md-input [(ngModel)]="login.username" name="username" placeholder="UserName" style="width:100%"></md-input>
+    <md-input type="password" [(ngModel)]="login.password" name="password" style="width:100%" placeholder="Password"></md-input>
+    <md-checkbox [(ngModel)]="login.remember" name="remember">
+        Remember Me
+    </md-checkbox>
+    <button md-raised-button color="primary" (click)="doLogin()" name="op" value="login">Login</button>
+    
+    
+    <div>
+        <a href="#/pwreset">Recupera password</a>
+    </div>
+    
+</form>
