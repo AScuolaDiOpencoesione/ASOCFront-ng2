@@ -34,8 +34,18 @@ export class DRFEditComponent extends DRFNewComponent{
   ngOnInit(){
     this.config = this.eroute.snapshot.data;
     this.id = this.eroute.snapshot.params.id;
-    console.log("editing",this.id);
+    console.log("editing",this.config.datasource, this.id);
+    //HARDFIX for ASOC1617
+    if(this.config.datasource == "teamdetails" && this.id == 6){
+      this.id = 8;
+      console.log("Nope. editing",this.config.datasource, this.id);
+    }
+      
     this.setService(this.ebms.setActiveSpace("").setActiveApp(this.config.datasource));
     this.prepare();
+  }
+  
+  pre_save(item:any){
+    item.id = this.id;
   }
 }

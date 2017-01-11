@@ -8,5 +8,5 @@
             <img *ngIf="mode=='img'" src="{{upload_url}}">
         </a>
     </span>
-    <span class="remove" (click)="removeFile()">X</span>
+    <span *ngIf="!disabled" class="remove" style="margin-left:10px;" (click)="removeFile()">Cancella</span>
 </div>

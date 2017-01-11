@@ -9,4 +9,7 @@ import { MnProfileService } from './mn-profile.service';
 })
 export class AppComponent {
   constructor(private auth:MnAuthService, private profile:MnProfileService){}
+  
+  //mode = "test";
+  mode = "";
 }

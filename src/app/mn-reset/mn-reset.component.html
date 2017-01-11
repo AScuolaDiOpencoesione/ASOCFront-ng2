@@ -1,3 +1,7 @@
-<p>
-  mn-reset works!
-</p>
+<form style="width:90%; margin-left:5%">
+    <h1>Login</h1>
+    <div *ngIf="error" class="alert alert-danger">{{error_msg}}</div>
+    <md-input [(ngModel)]="email" name="email" placeholder="Indirizzo Mail" style="width:100%"></md-input>
+    
+    <button md-raised-button color="primary" (click)="recover()" name="op" value="recover">Recupera password!</button>
+</form>

@@ -111,8 +111,11 @@ export class BackendManagerService extends CRUDResourceServiceBase implements IC
   
   getOne(id:number):Promise<any>{
     return new Promise((resolve, reject)=>{
-      let r_url = this.base_url+this.active_source+"/"+id+"/";
-      this.http.get(r_url, this.headers)
+      let headers = new Headers();
+      headers.append('Content-Type','application/json');
+      headers.append('Accept','application/json');
+      let r_url = this.base_url+this.active_source+"/"+id+"/?format=json";
+      this.http.get(r_url, {headers:headers})
           .toPromise()
           .then(res=>resolve(res.json()))
     });

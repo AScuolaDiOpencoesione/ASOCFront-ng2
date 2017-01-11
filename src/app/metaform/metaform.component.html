@@ -1,7 +1,7 @@
 <div class="scrollable" id="scrollable">
     <div class="hero">
     <h1>{{name}}</h1>
-    <p [innerHTML]="description"></p>
+    <p *ngIf="description" [innerHTML]="description"></p>
     </div>
     <form class="col-md-10 col-md-offset-1" style="margin-top:20px;">
         <!-- Sections wrapper -->
@@ -19,7 +19,7 @@
                 <div class="col-md-12" style="">
                     <input *ngIf="item.t.t == 'str'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" [required]="item.required" formnovalidate type="text" name="{{item.field_name}}">
                     <!--<textarea *ngIf="item.t.t == 'ckedit'" [(ngModel)]="report[item.field_name]" class="form-control ckedit" [required]="item.required" formnovalidate type="text" name="{{item.field_name}}"></textarea>-->
-                    <ckeditor *ngIf="item.t.t == 'ckedit'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" name="{{item.field_name}}"></ckeditor>
+                    <ckeditor *ngIf="item.t.t == 'ckedit'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" [config]='{"uploadUrl":"http://api.ascuoladiopencoesione.it/ck_upload/","extraPlugins":"uploadimage"}' name="{{item.field_name}}"></ckeditor>
                     <input *ngIf="item.t.t == 'url'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="text" name="{{item.field_name}}" [required]="item.required" formnovalidate >
                     <input *ngIf="item.t.t == 'email'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="email" name="{{item.field_name}}" [required]="item.required" formnovalidate >
                     <mn-upload *ngIf="item.t.t == 'file'" [disabled]="!editable" [mode]="'file'" [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (fileuploaded)="fileuploaded(x)" [field_name]="item.field_name"></mn-upload>
@@ -51,15 +51,15 @@
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="item.t.t != 'boolean' && item.t.t != 'multiple choice' && item.help_text != null">
-                <div class="col-md-6 col-md-offset-2 help-block" [innerHtml]="item.help_text"></div>
+            <div  class="row" *ngIf="item.t.t != 'boolean' && item.t.t != 'multiple choice' && item.help_text != null">
+                <div *ngIf="item.help_text" class="col-md-6 col-md-offset-2 help-block" [innerHtml]="item.help_text"></div>
             </div>
             <div class="row" *ngIf="item.number != ''"><hr class="col-md-8"></div>
         </div>
-        <button (click)="storeData($event)" class="btn btn-success"><i class="fa fa-fw fa-save"></i> Salva</button>
-        <a [attr.href]="'http://www.ascuoladiopencoesione.it/blogs/'+form_id+'/111/'+report_id+'?preview=true'" class="btn btn-info"><i class="fa fa-fw fa-eye"></i> Anteprima</a>
-        <button (click)="submitData($event)" class="btn btn-success"><i class="fa fa-fw fa-send"></i> Invia</button>
-        <button (click)="storeAndSubmitData($event)" class="btn btn-success"><i class="fa fa-fw fa-save"></i>&amp;<i class="fa fa-fw fa-send"></i> Salva e invia</button> 
+        <button [disabled]="!editable" (click)="storeData($event)" class="btn btn-success"><i class="fa fa-fw fa-save"></i> Salva</button>
+        <a [attr.href]="'http://www.ascuoladiopencoesione.it/'+mode+'blogs/'+form_id+'/111/'+report_id+'?preview=true'" target="_blank" class="btn btn-info"><i class="fa fa-fw fa-eye"></i> Anteprima</a>
+        <button [disabled]="!editable" (click)="submitData($event)" class="btn btn-success"><i class="fa fa-fw fa-send"></i> Invia</button>
+        <button [disabled]="!editable" (click)="storeAndSubmitData($event)" class="btn btn-success"><i class="fa fa-fw fa-save"></i>&amp;<i class="fa fa-fw fa-send"></i> Salva e invia</button> 
     </form>
     
 </div>

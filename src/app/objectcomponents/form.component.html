@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                             <div class="row" *ngIf="item.type != 'boolean' && item.type != 'multiple choice'">
-                                <div class="col-md-6 col-md-offset-2 help-block" [innerHtml]="item.help_text"></div>
+                                <div *ngIf="item.help_text" class="col-md-6 col-md-offset-2 help-block" [innerHtml]="item.help_text"></div>
                             </div>
                             <div class="row" *ngIf="item.number != ''"><hr class="col-md-8"></div>
                         </div>

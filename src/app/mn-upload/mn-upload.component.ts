@@ -20,7 +20,9 @@ export class MnUploadComponent implements ControlValueAccessor{
   @Input() field_name;
   @Input() required = false;
   @Input() mode;
+  @Input() disabled;
   @Output() fileuploaded = new EventEmitter<any>();
+  
   file_uploaded = false;
   file_uploading = false;
   upload_url = "";
@@ -51,6 +53,9 @@ export class MnUploadComponent implements ControlValueAccessor{
   writeValue(value: any) {
       if (value !== this.upload_url) {
           this.upload_url = value;
+          if(value == "" || value == null || value == undefined)
+          this.file_uploaded = false;
+          else 
           this.file_uploaded = true;
       }
   }

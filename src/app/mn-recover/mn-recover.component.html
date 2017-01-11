@@ -1,0 +1,7 @@
+<form style="width:90%; margin-left:5%">
+    <h1>Recupero Password</h1>
+    <div *ngIf="error" class="alert alert-danger">{{error_msg}}</div>
+    <md-input type="password" [(ngModel)]="recover.password" name="password" placeholder="Nuova Password" style="width:100%"></md-input>
+   
+    <button md-raised-button color="primary" (click)="finalize()" name="op" value="login">Login</button>
+</form>

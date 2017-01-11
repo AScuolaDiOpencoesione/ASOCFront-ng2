@@ -181,7 +181,12 @@ export class DRFNewComponent extends DRFServiceComponent implements AfterViewChe
     return x;
   }
 
+  pre_save(item:any){
+    
+  }
+
   save(item:any){
+    this.pre_save(item);
     this._service.addOne(item)
      .then(x => {this.postSave(x);})
      .catch(err => {this.handle_error(err);});

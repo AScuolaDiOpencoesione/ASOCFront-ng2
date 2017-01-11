@@ -108,7 +108,8 @@ export class MnProfileService {
     
     password_reset(data){
         return new Promise((resolve,reject)=>{
-            this.http.post(this.endpoint+"password/reset/"+"?format=json", JSON.stringify(data)).toPromise().then(x=>{
+        let h = new Headers({ 'Content-Type': 'application/json' });
+            this.http.post(this.endpoint+"password/reset/"+"?format=json", JSON.stringify({"email":data}), {headers:h}).toPromise().then(x=>{
                 resolve();
             });
         });
@@ -116,7 +117,8 @@ export class MnProfileService {
     
     password_reset_confirm(data){
         return new Promise((resolve,reject)=>{
-            this.http.post(this.endpoint+"password/reset/confirm/"+"?format=json", JSON.stringify(data)).toPromise().then(x=>{
+        let h = new Headers({ 'Content-Type': 'application/json' });
+            this.http.post(this.endpoint+"password/reset/confirm/"+"?format=json", JSON.stringify(data),  {headers:h}).toPromise().then(x=>{
                 resolve();
             });
         });
@@ -124,7 +126,8 @@ export class MnProfileService {
     
     change_password(data){
         return new Promise((resolve,reject)=>{
-            this.http.post(this.endpoint+"password/"+"?format=json", JSON.stringify(data)).toPromise().then(x=>{
+        let h = new Headers({ 'Content-Type': 'application/json' });
+            this.http.post(this.endpoint+"password/"+"?format=json", JSON.stringify(data), {headers:h}).toPromise().then(x=>{
                 resolve();
             });
         });
