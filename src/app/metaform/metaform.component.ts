@@ -35,20 +35,24 @@ export class MetaformComponent implements OnInit {
     }
     
     ngOnInit(){
-        this.form_id = this.route.snapshot.params["id"];
-        this.report_id = this.route.snapshot.params["iid"];
         
-        console.log(this.report_id);
-            
-            
-        this.http.get("http://"+this.mode+"api.ascuoladiopencoesione.it/meta/compiledform/"+this.report_id+"/?format=json").toPromise()
-            .then(x=>{
-                let jj = x.json();
-                this.preparefields(jj.form);
-                this.preparevalues(jj);
-                this.editable = !jj.published;
-            });
-     
+        this.route.params.subscribe(params => {
+            this.form_id = +params["id"];
+            this.report_id = +params["iid"];
+        
+            console.log(this.report_id);
+                
+                
+            this.http.get("http://"+this.mode+"api.ascuoladiopencoesione.it/meta/compiledform/"+this.report_id+"/?format=json").toPromise()
+                .then(x=>{
+                    let jj = x.json();
+                    this.preparefields(jj.form);
+                    this.preparevalues(jj);
+                    this.editable = !jj.published;
+                });
+    
+        });
+
     }
     
     preparevalues(form:any){
