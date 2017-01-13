@@ -44,8 +44,8 @@ import { CKEditorModule } from 'ng2-ckeditor';
 import { MnRecoverComponent } from './mn-recover/mn-recover.component';
 import { AsocReportThanksComponent } from './asoc-report-thanks/asoc-report-thanks.component';
 
-//let mode = "test";
-let mode = "";
+let mode = "test";
+//let mode = "";
 
 @NgModule({
   declarations: [

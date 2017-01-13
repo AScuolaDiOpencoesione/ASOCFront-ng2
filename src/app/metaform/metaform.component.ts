@@ -21,8 +21,8 @@ export class MetaformComponent implements OnInit {
     loaded_files = {};
     loaded_files_a = {};
 
-    //mode="test";
-    mode = "";
+    mode="test";
+    //mode = "";
 
     form_id = -1;
     report_id = -1;

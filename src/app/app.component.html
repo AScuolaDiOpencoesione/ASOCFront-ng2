@@ -18,9 +18,9 @@
         <a class="btn btn-link" *ngIf="!profile.data.__zone_symbol__value[profile.data.__zone_symbol__value.type].id" [routerLink]="'/profile/create/'+profile.data.__zone_symbol__value.type">Crea il Profilo</a>
         <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/1/edit/'+profile.data.__zone_symbol__value.reports.lesson_1_form">Compila Report Lezione 1</a>
         <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/2/edit/'+profile.data.__zone_symbol__value.reports.lesson_2_form">Compila Report Lezione 2</a>
-        <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/3/edit/'+profile.data.__zone_symbol__value.reports.lesson_3_form" disabled>Compila Report Lezione 3</a>
-        <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/4/edit/'+profile.data.__zone_symbol__value.reports.lesson_3_form_event" disabled>Compila Report Open Data Day</a>
-        <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/5/edit/'+profile.data.__zone_symbol__value.reports.lesson_3_form_post" disabled>Compila Report Post Open Data Day</a>
+        <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/3/edit/'+profile.data.__zone_symbol__value.reports.lesson_3_form">Compila Report Lezione 3</a>
+        <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/4/edit/'+profile.data.__zone_symbol__value.reports.lesson_3_form_event">Compila Report Open Data Day</a>
+        <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/5/edit/'+profile.data.__zone_symbol__value.reports.lesson_3_form_post">Compila Report Post Open Data Day</a>
         <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/6/edit/'+profile.data.__zone_symbol__value.reports.lesson_4_form" disabled>Compila Report Lezione 4</a>
         <a class="btn btn-link" *ngIf="profile.hasRole('team')" [routerLink]="'/report/7/edit/'+profile.data.__zone_symbol__value.reports.lesson_5_form" disabled>Compila Report Lezione 5</a>
       </div>
