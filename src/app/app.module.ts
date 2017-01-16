@@ -43,6 +43,7 @@ import { MnCkeditComponent } from './mn-ckedit/mn-ckedit.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { MnRecoverComponent } from './mn-recover/mn-recover.component';
 import { AsocReportThanksComponent } from './asoc-report-thanks/asoc-report-thanks.component';
+import { MnOembedComponent } from './mn-oembed/mn-oembed.component';
 
 let mode = "test";
 //let mode = "";
@@ -66,7 +67,8 @@ let mode = "test";
     MetaformComponent,
     MnCkeditComponent,
     MnRecoverComponent,
-    AsocReportThanksComponent
+    AsocReportThanksComponent,
+    MnOembedComponent
   ],
   imports: [
     MaterialModule.forRoot(),

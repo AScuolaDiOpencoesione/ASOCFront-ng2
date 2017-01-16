@@ -1,0 +1,8 @@
+<input type="text" (change)="oembed($event, field_name)">
+<input type="hidden" [required]="required" name="{{field_name}}" value="{{oembed_data}}">
+<div *ngIf="url_embedding"><i class="fa fa-cog fa-spin fa-fw"></i></div>
+<div *ngIf="url_embedding">
+    <div class="preview" [innerHtml]="{{oembed_data}}">
+    </div>
+    <span *ngIf="!disabled" class="remove" style="margin-left:10px;" (click)="removeFile()">Cancella</span>
+</div>
