@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation'
+
 import { HttpModule, Http } from '@angular/http';
 import { AuthHttp, AUTH_PROVIDERS } from 'angular2-jwt';
 
@@ -74,6 +76,7 @@ let mode = "test";
     MaterialModule.forRoot(),
     BrowserModule,
     FormsModule,
+    CustomFormsModule,
     HttpModule,
     AppRoutingModule,
     CKEditorModule,
