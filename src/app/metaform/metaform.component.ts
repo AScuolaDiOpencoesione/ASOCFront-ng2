@@ -30,6 +30,8 @@ export class MetaformComponent implements OnInit {
     report_id = -1;
     editable = true;
 
+    author_id;
+
     report = {};
 
     fileuploaded(x){
@@ -48,6 +50,7 @@ export class MetaformComponent implements OnInit {
             this.http.get("http://"+this.mode+"api.ascuoladiopencoesione.it/meta/compiledform/"+this.report_id+"/?format=json").toPromise()
                 .then(x=>{
                     let jj = x.json();
+                    this.author_id = jj.author;
                     if (jj.author_name != this.profile.userData.user)
                         this.router.navigate(["/login"]);
                     
@@ -99,7 +102,7 @@ export class MetaformComponent implements OnInit {
             this.editable = false;
             this.save(this.report, true).then(x=>{
                 if(x) // finalized
-                    this.router.navigate(["/report/thanks", {"report":this.report_id, "author":this.report.author, "mode":this.mode}]);
+                    this.router.navigate(["/report/thanks", {"report":this.report_id, "author":this.author_id, "mode":this.mode}]);
             });
         } else {
         }
