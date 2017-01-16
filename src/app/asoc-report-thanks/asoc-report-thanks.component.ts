@@ -11,11 +11,14 @@ export class AsocReportThanksComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,private router: Router) { }
 
-  report 
-
+  report;
+  author;
+  mode;
+  
   ngOnInit() {
-    this.route.params
-      .switchMap((params: Params) => {this.report = +params['report'];});
+    this.report = this.route.snapshot.params["report"];
+    this.author = this.route.snapshot.params["author"];
+    this.mode = this.route.snapshot.params["mode"];
   }
 
 }

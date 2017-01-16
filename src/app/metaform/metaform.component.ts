@@ -99,7 +99,7 @@ export class MetaformComponent implements OnInit {
             this.editable = false;
             this.save(this.report, true).then(x=>{
                 if(x) // finalized
-                    this.router.navigate(["/report/thanks", {"report":this.report_id}]);
+                    this.router.navigate(["/report/thanks", {"report":this.report_id, "author":this.report.author, "mode":this.mode}]);
             });
         } else {
         }
