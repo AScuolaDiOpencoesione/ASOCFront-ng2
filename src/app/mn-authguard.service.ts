@@ -14,7 +14,7 @@ export class MnAuthGuardService implements CanActivate {
 
     console.log(this.router.url);
     
-    this.router.navigate(['/login']);
+    //this.router.navigate(['/login']);
     return false;
   }
 }

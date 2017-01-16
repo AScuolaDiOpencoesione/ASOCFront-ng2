@@ -4,6 +4,8 @@ import { AuthHttp } from 'angular2-jwt';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { MnUploadService } from '../mn-upload.service';
+import { MnAuthService } from '../mn-auth.service';
+import { MnProfileService } from '../mn-profile.service';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -14,7 +16,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class MetaformComponent implements OnInit {
     
-    constructor(private http:AuthHttp, private route:ActivatedRoute, private us:MnUploadService, private router:Router){}
+    constructor(private http:AuthHttp, private route:ActivatedRoute, private us:MnUploadService, private router:Router, private auth:MnAuthService, private profile:MnProfileService){}
     
     name = "";
     fields = [];
@@ -46,6 +48,9 @@ export class MetaformComponent implements OnInit {
             this.http.get("http://"+this.mode+"api.ascuoladiopencoesione.it/meta/compiledform/"+this.report_id+"/?format=json").toPromise()
                 .then(x=>{
                     let jj = x.json();
+                    if (jj.author_name != this.profile.userData.user)
+                        this.router.navigate(["/login"]);
+                    
                     this.preparefields(jj.form);
                     this.preparevalues(jj);
                     this.editable = !jj.published;
