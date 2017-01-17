@@ -134,7 +134,7 @@ export class MetaformComponent implements OnInit {
     
     show_errors(errs){
         this.errs = [];
-        for (let err of errs)
+        for (let err of errs.errors)
         this.errs.push(err.field);
     }
 }
