@@ -99,9 +99,9 @@ export class MetaformComponent implements OnInit {
             this.report.__cf = this.report_id;
             this.report.__final = true;
             console.log(this.report);
-            this.editable = false;
             this.save(this.report, true).then(x=>{
                 if(x) // finalized
+                    this.editable = false;
                     this.router.navigate(["/report/thanks", {"report":this.report_id, "author":this.author_id, "mode":this.mode}]);
             });
         } else {
@@ -122,11 +122,19 @@ export class MetaformComponent implements OnInit {
             })
             .catch(err => {
                 alert("C'è stato un problema nel salvataggio.");
-                reject()
+                this.show_errors(err.json;
             });
         });
     }
     storeAndSubmitData(event){
         this.submitData(event);
+    }
+    
+    errs = []
+    
+    show_errors(errs){
+        this.errs = [];
+        for (let err of errs)
+        this.errs.push(err.field);
     }
 }

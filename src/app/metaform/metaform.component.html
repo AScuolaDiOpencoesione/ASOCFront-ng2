@@ -15,15 +15,16 @@
                     <span [innerHtml]="item.label"></span>
                     <span *ngIf="item.required">*</span> 
                 </label>
+                <div *ngIf="errs.indexOf(item.field_name) >= 0" class="alert alert-danger">Il campo è obbligatorio</div>
                 <div class="col-md-10 col-md-offset-1 help-block" [innerHtml]="item.description"></div>
                 <div class="col-md-12" style="">
                     <input *ngIf="item.t.t == 'str'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" [required]="item.required" formnovalidate type="text" name="{{item.field_name}}">
                     <!--<textarea *ngIf="item.t.t == 'ckedit'" [(ngModel)]="report[item.field_name]" class="form-control ckedit" [required]="item.required" formnovalidate type="text" name="{{item.field_name}}"></textarea>-->
-                    <ckeditor *ngIf="item.t.t == 'ckedit'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" [config]='{"uploadUrl":"http://api.ascuoladiopencoesione.it/ck_upload/","extraPlugins":"uploadimage", "readOnly":!editable}' name="{{item.field_name}}"></ckeditor>
-                    <input *ngIf="item.t.t == 'url'" url [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="text" name="{{item.field_name}}" [required]="item.required" formnovalidate >
+                    <ckeditor *ngIf="item.t.t == 'ckedit'" [disabled]="!editable" [required]="item.required" [(ngModel)]="report[item.field_name]" [config]='{"removeButtons":"Save","uploadUrl":"http://api.ascuoladiopencoesione.it/ck_upload/","extraPlugins":"uploadimage", "readOnly":!editable}' name="{{item.field_name}}"></ckeditor>
+                    <input *ngIf="item.t.t == 'url'" url [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="url" name="{{item.field_name}}" [required]="item.required" formnovalidate >
                     <input *ngIf="item.t.t == 'email'" email [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="email" name="{{item.field_name}}" [required]="item.required" formnovalidate >
-                    <mn-upload *ngIf="item.t.t == 'file'" [disabled]="!editable" [mode]="'file'" [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (fileuploaded)="fileuploaded(x)" [field_name]="item.field_name"></mn-upload>
-                    <mn-upload *ngIf="item.t.t == 'img'" [disabled]="!editable"  [mode]="'img'"  [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (fileuploaded)="fileuploaded(x)" [field_name]="item.field_name"></mn-upload>
+                    <mn-upload *ngIf="item.t.t == 'file'" [disabled]="!editable" [required]="item.required" [mode]="'file'" [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (fileuploaded)="fileuploaded(x)" [field_name]="item.field_name"></mn-upload>
+                    <mn-upload *ngIf="item.t.t == 'img'" [disabled]="!editable" [required]="item.required" [mode]="'img'"  [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (fileuploaded)="fileuploaded(x)" [field_name]="item.field_name"></mn-upload>
                     <div *ngIf="item.t.t == 'boolean'">
                         <p class="col-md-9 help-block" [innerHtml]="item.help_text"></p>
                         <div class="col-md-3">
