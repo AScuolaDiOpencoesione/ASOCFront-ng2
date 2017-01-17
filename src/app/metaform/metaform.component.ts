@@ -122,7 +122,7 @@ export class MetaformComponent implements OnInit {
             })
             .catch(err => {
                 alert("C'è stato un problema nel salvataggio.");
-                this.show_errors(err.json;
+                this.show_errors(err.json);
             });
         });
     }
