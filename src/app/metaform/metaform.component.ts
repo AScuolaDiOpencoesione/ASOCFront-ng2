@@ -112,10 +112,12 @@ export class MetaformComponent implements OnInit {
         item.asocform = this.form_id;
         return new Promise((resolve,reject) =>{this.http.post("http://"+this.mode+"api.ascuoladiopencoesione.it/metaform/",JSON.stringify(item)).toPromise()
             .then(x => {
+                this.errs = {};
                 alert("Report Salvato!");
                 if(final){
                     alert("Inviato!");
                     resolve(true);
+                    
                 }
                 alert("Ora puoi vedere l'anteprima.");
                 resolve(false);
@@ -130,11 +132,11 @@ export class MetaformComponent implements OnInit {
         this.submitData(event);
     }
     
-    errs = []
+    errs = {}
     
     show_errors(errs){
-        this.errs = [];
+        this.errs = {};
         for (let err of errs.errors)
-        this.errs.push(err.field);
+        this.errs[err.field] = err.error;
     }
 }

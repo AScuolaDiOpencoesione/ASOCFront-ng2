@@ -15,7 +15,10 @@
                     <span [innerHtml]="item.label"></span>
                     <span *ngIf="item.required">*</span> 
                 </label>
-                <div *ngIf="errs.indexOf(item.field_name) >= 0" class="alert alert-danger">Il campo è obbligatorio</div>
+                <div *ngIf="errs.hasOwnProperty(item.field_name)" class="alert alert-danger">
+                    <span *ngIf="errs[item.field_name] == 'r'">Il campo è obbligatorio</span>
+                    <span *ngIf="errs[item.field_name] == 'f'">Il campo ha il formato sbagliato</span>
+                </div>
                 <div class="col-md-10 col-md-offset-1 help-block" [innerHtml]="item.description"></div>
                 <div class="col-md-12" style="">
                     <input *ngIf="item.t.t == 'str'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" [required]="item.required" formnovalidate type="text" name="{{item.field_name}}">
