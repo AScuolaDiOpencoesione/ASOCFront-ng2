@@ -20,13 +20,22 @@
                     <span *ngIf="errs[item.field_name] == 'f'">Il campo ha il formato sbagliato</span>
                 </div>
                 <div class="col-md-10 col-md-offset-1 help-block" [innerHtml]="item.description"></div>
+                <div class="col-md-10 col-md-offset-1 help-block">
+                    <span *ngIf="item.t.t == 'date'">Inserire la data dell'evento in formato gg/mm/aaaa, es: 28/02/2017</span>
+                    <span *ngIf="item.t.t == 'point'">Inserire un indirizzo e premere il pulsante Cerca, verificando che la geolocalizzazione sia corretta. es: via labicana, 27, roma</span>
+                    <span *ngIf="item.t.t == 'time'">Inserire l'orario dell'evento nel formato oo:mm, es: 11:45</span>
+                    <span *ngIf="item.t.t == 'img'">Premere Choose File per selezionare un'immagine dal proprio PC, usare file di tipo Jpeg, Png, Gif, di dimensioni non superiori a 8MB</span>
+                    <span *ngIf="item.t.t == 'ckedit'">Per inserire immagini all'interno del testo, trascinare il file immagine (jpg o png) nella finestra sottostante nella posizione desiderata</span>
+                    <span *ngIf="item.t.t == 'oembed'">Questo campo serve a inserire un "oggetto embed". Se avete realizzato una visualizzazione interattiva con uno degli strumenti consigliati nella pillola 3.7, è necessario inserire di seguito il codice fornito dal servizio per incorporare la visualizzazione nel testo. Per esempio: "&lt;iframe src="https://player.vimeo.com/video/201195751" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>&lt;/iframe></span>
+                </div>
                 <div class="col-md-12" style="">
                     <input *ngIf="item.t.t == 'str'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" [required]="item.required" formnovalidate type="text" name="{{item.field_name}}">
                     <!--<textarea *ngIf="item.t.t == 'ckedit'" [(ngModel)]="report[item.field_name]" class="form-control ckedit" [required]="item.required" formnovalidate type="text" name="{{item.field_name}}"></textarea>-->
-                    <ckeditor *ngIf="item.t.t == 'ckedit'" [disabled]="!editable" [required]="item.required" [(ngModel)]="report[item.field_name]" [config]='{"removeButtons":"Save","uploadUrl":"http://api.ascuoladiopencoesione.it/ck_upload/","extraPlugins":"uploadimage", "readOnly":!editable}' name="{{item.field_name}}"></ckeditor>
+                    <ckeditor *ngIf="item.t.t == 'ckedit'" [disabled]="!editable" [required]="item.required" [(ngModel)]="report[item.field_name]" [config]='{"removeButtons":"Save","uploadUrl":"http://api.ascuoladiopencoesione.it/ck_upload/","extraPlugins":"uploadimage","allowedContent":true,"readOnly":!editable}' name="{{item.field_name}}"></ckeditor>
                     <input *ngIf="item.t.t == 'url'" url [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="url" name="{{item.field_name}}" [required]="item.required" formnovalidate >
                     <input *ngIf="item.t.t == 'email'" email [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="email" name="{{item.field_name}}" [required]="item.required" formnovalidate >
                     <input *ngIf="item.t.t == 'date'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="date" name="{{item.field_name}}" [required]="item.required" formnovalidate >
+                    <input *ngIf="item.t.t == 'time'" [disabled]="!editable" [(ngModel)]="report[item.field_name]" class="form-control" type="time" name="{{item.field_name}}" [required]="item.required" formnovalidate >
                     <mn-upload *ngIf="item.t.t == 'file'" [disabled]="!editable" [required]="item.required" [mode]="'file'" [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (fileuploaded)="fileuploaded(x)" [field_name]="item.field_name"></mn-upload>
                     <mn-upload *ngIf="item.t.t == 'img'" [disabled]="!editable" [required]="item.required" [mode]="'img'"  [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (fileuploaded)="fileuploaded(x)" [field_name]="item.field_name"></mn-upload>
                     <div *ngIf="item.t.t == 'boolean'">
@@ -49,15 +58,24 @@
                         <option value="">--- Seleziona una delle opzioni ---</option>
                         <option *ngFor="let c of item.choices" value="{{c.value}}">{{c.display_name}}</option> 
                     </select>
-                    <div *ngIf="item.t.t == 'multiple choice'" >
-                        <div *ngFor="let c of item.choices"> <input [disabled]="!editable" [(ngModel)]="report[item.field_name]" type="checkbox" formnovalidate data-on="Si" data-off="No" data-onstyle="success" (change)="setSelected($event, item.field_name)" data-offstyle="danger" name="{{item.field_name}}" value="{{c.value}}"> 
-                            <span [innerHtml]="c.display_name"> </span>
+                    <div *ngIf="item.t.t == 'multiple c'" >
+                        <div *ngFor="let c of item.choices; let i = index;">
+                            <input [disabled]="!editable" [(ngModel)]="report[item.field_name][c.display_name]" [checked]="report[item.field_name][c.display_name]==true" type="checkbox" name="{{item.field_name}}"> 
+                            <span [ngStyle]="{'font-weight':report[item.field_name][c.display_name]?'bold':''}" [innerHtml]="c.display_name"> </span>
                         </div> 
                     </div>
-                    <div *ngIf="item.t.t == 'map'" >
-                        MAP
+                    <div *ngIf="item.t.t == 'point'" >
+                        <div class="input-group">
+                            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" #addr [(ngModel)]="report[item.field_name]['addr']" [disabled]="!editable">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" (click)="cerca(addr, item, map)">Cerca</button>
+                            </span>
+                        </div>
+                        <div mn-map #map style="height:200px; width:100%;" [show_legend]="false" [map_id]="'main_map'" [center]="[45,11]" [draggable]="false" [startzoom]="5.5" id="main_map" [start_marker]="report[item.field_name]['geoj']">
+                            <namedlayer [layer]="'osm'" ></namedlayer>
+                        </div>
                     </div>
-                    <mn-oembed *ngIf="item.t.t == 'oembed'"  [disabled]="!editable" [mode]="'file'" [(ngModel)]="report[item.field_name]" ngDefaultControl name="{{item.field_name}}" (embedded)="fileuploaded(x)" [field_name]="item.field_name" ></mn-oembed>
+                    <textarea *ngIf="item.t.t == 'oembed'" class="form-control"  [disabled]="!editable" [(ngModel)]="report[item.field_name]" name="{{item.field_name}}" ></textarea>
                     
                 </div>
             </div>
@@ -65,6 +83,9 @@
                 <div *ngIf="item.help_text" class="col-md-6 col-md-offset-2 help-block" [innerHtml]="item.help_text"></div>
             </div>
             <div class="row" *ngIf="item.number != ''"><hr class="col-md-8"></div>
+        </div>
+        <div class="hidden">
+            {{report|json}}
         </div>
         <button [disabled]="!editable" (click)="storeData($event)" class="btn btn-success"><i class="fa fa-fw fa-save"></i> Salva</button>
         <a [attr.href]="'http://www.ascuoladiopencoesione.it/'+mode+'blogs/'+form_id+'/111/'+report_id+'?preview=true'" target="_blank" class="btn btn-info"><i class="fa fa-fw fa-eye"></i> Anteprima</a>

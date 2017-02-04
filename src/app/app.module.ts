@@ -47,6 +47,10 @@ import { MnRecoverComponent } from './mn-recover/mn-recover.component';
 import { AsocReportThanksComponent } from './asoc-report-thanks/asoc-report-thanks.component';
 import { MnOembedComponent } from './mn-oembed/mn-oembed.component';
 
+import {ToastyModule} from 'ng2-toasty';
+import { MnMapComponent, DataLayer, NamedLayer, BaseLayer, CityOSLayer, CityOSBackgroundLayer, CityOSNearbyLayer } from './mn-map/mn-map.component';
+
+
 let mode = "test";
 //let mode = "";
 
@@ -70,11 +74,14 @@ let mode = "test";
     MnCkeditComponent,
     MnRecoverComponent,
     AsocReportThanksComponent,
-    MnOembedComponent
+    MnOembedComponent,
+    MnMapComponent, DataLayer, NamedLayer, BaseLayer, CityOSLayer, CityOSBackgroundLayer, CityOSNearbyLayer, 
+
   ],
   imports: [
     MaterialModule.forRoot(),
     BrowserModule,
+    ToastyModule.forRoot(),
     FormsModule,
     CustomFormsModule,
     HttpModule,

@@ -1,4 +1,4 @@
-import { Component, Input, Inject, Output, EventEmitter, ViewContainerRef, ViewChild, ComponentResolver, ComponentMetadata, ComponentFactory, Directive, ReflectiveInjector, Pipe, PipeTransform  } from '@angular/core';
+import { Component, Input, Inject, Output, EventEmitter, ViewContainerRef, ViewChild, ComponentResolver, ComponentFactory, Directive, ReflectiveInjector, Pipe, PipeTransform  } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogModule } from 'primeng/primeng';
@@ -10,7 +10,7 @@ import { BackendManagerService } from '../backend-manager.service';
 
 import { ListService } from '../list.service';
 
-export function createComponentFactory(resolver: ComponentResolver, metadata: ComponentMetadata): Promise<ComponentFactory<any>> {
+export function createComponentFactory(resolver: ComponentResolver, metadata: any): Promise<ComponentFactory<any>> {
     const cmpClass = class DynamicComponent extends DRFServiceComponent { 
       public item:any; 
       public mgmt_svc:string;
@@ -142,7 +142,7 @@ export class DRFListFilterComponent extends DRFServiceComponent{
 @Component({
   selector:"[list]",
   templateUrl:"./list.component.html",
-  directives:[DRFListItemComponent, DRFListFilterComponent, DRFListHeadComponent],
+  //directives:[DRFListItemComponent, DRFListFilterComponent, DRFListHeadComponent],
 })
 export class DRFListComponent extends DRFServiceComponent{
   public items:any[];
@@ -228,7 +228,7 @@ filter_template = "";
 @Component({
   selector:"[list-mini]",
   templateUrl:"./list-mini.component.html",
-  directives:[DRFListItemComponent, DRFListFilterComponent, DRFListHeadComponent],
+  //directives:[DRFListItemComponent, DRFListFilterComponent, DRFListHeadComponent],
 })
 export class DRFMiniListComponent extends DRFServiceComponent{
   public items:any[];

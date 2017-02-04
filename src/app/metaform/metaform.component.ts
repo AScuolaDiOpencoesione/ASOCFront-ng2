@@ -9,6 +9,9 @@ import { MnProfileService } from '../mn-profile.service';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+
+
 @Component({
   selector: 'app-metaform',
   templateUrl: './metaform.component.html',
@@ -16,7 +19,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class MetaformComponent implements OnInit {
     
-    constructor(private http:AuthHttp, private route:ActivatedRoute, private us:MnUploadService, private router:Router, private auth:MnAuthService, private profile:MnProfileService){}
+    constructor(private http:AuthHttp, private route:ActivatedRoute, private us:MnUploadService, private router:Router, private auth:MnAuthService, private profile:MnProfileService, private toastyService:ToastyService, private toastyConfig: ToastyConfig){
+        this.toastyConfig.theme = 'material';
+    }
     
     name = "";
     fields = [];
@@ -68,8 +73,14 @@ export class MetaformComponent implements OnInit {
             if (f.valid){
                 for (let fo of this.fields){
                     if(f.field == fo.id){
-                        console.log(fo);
-                        this.report[fo.field_name] = f.value;
+                        if(fo.t.t == "point") {
+                            this.report[fo.field_name]["addr"] = f.value.addr;
+                            this.report[fo.field_name]["geoj"] = f.value.geoj;
+                        } else {
+                          console.log(fo);
+                          console.log(f.value);
+                            this.report[fo.field_name] = f.value;
+                        }
                     }
                 }
             }
@@ -80,6 +91,9 @@ export class MetaformComponent implements OnInit {
     preparefields(form:any){
         this.name = form.name;
         this.fields = form.fields;
+        for (let f of this.fields)
+            if(["point","multiple c"].indexOf(f.t.t) >=0)
+                this.report[f.field_name] = {};
     }
     
     the_dict = {}
@@ -89,15 +103,17 @@ export class MetaformComponent implements OnInit {
     }
     
     storeData(event){
+        this.errs = {};
         this.report.__cf = this.report_id;
         console.log(this.report);
         this.save(this.report);
     }
     
     submitData(event){
+        this.errs = {};
         if (confirm('Inviare il report? Una volta inviato non sarà più possibile modificarlo.')) {
             this.report.__cf = this.report_id;
-            this.report.__final = true;
+            //this.report.__final = true;
             console.log(this.report);
             this.save(this.report, true).then(x=>{
                 if(x) // finalized
@@ -110,20 +126,25 @@ export class MetaformComponent implements OnInit {
 
     save(item, final=false){
         item.asocform = this.form_id;
+        item.__final = final;
+        this.errs = {};
         return new Promise((resolve,reject) =>{this.http.post("http://"+this.mode+"api.ascuoladiopencoesione.it/metaform/",JSON.stringify(item)).toPromise()
             .then(x => {
-                this.errs = {};
-                alert("Report Salvato!");
+                this.toastyService.info("Report Salvato!");
+                //alert("Report Salvato!");
                 if(final){
-                    alert("Inviato!");
+                this.toastyService.info("Inviato!");
+                    //alert("Inviato!");
                     resolve(true);
                     
                 }
-                alert("Ora puoi vedere l'anteprima.");
+                this.toastyService.info("Ora puoi vedere l'anteprima.");
+                //alert("Ora puoi vedere l'anteprima.");
                 resolve(false);
             })
             .catch(err => {
-                alert("C'è stato un problema nel salvataggio.");
+                this.toastyService.error("C'è stato un problema nell'invio.");
+                //alert("C'è stato un problema nel salvataggio.");
                 this.show_errors(err.json());
             });
         });
@@ -138,5 +159,15 @@ export class MetaformComponent implements OnInit {
         this.errs = {};
         for (let err of errs.errors)
         this.errs[err.field] = err.error;
+    }
+    
+    cerca(addrel, geojel, mapel){
+        this.http.get("http://api.cityopensource.com/api/v1/geocode?address="+addrel.value).toPromise().then(x=>{
+            let xx = x.json();
+            this.report[geojel.field_name]["geoj"] = xx;
+            mapel.setCenter(xx);
+            mapel.setZoom(18);
+            mapel.addMarker(xx);
+        });
     }
 }

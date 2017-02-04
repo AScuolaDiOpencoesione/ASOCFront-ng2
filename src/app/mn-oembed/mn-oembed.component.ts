@@ -31,6 +31,7 @@ export class MnOembedComponent implements ControlValueAccessor {
 
   oembed(event, name){
     this.oembed_done = true;
+    this.oembed_data = event.target.value;
   }
   removeFile(){
     this.oembed_data = "";
@@ -43,14 +44,14 @@ export class MnOembedComponent implements ControlValueAccessor {
   
   //get accessor
   get value(): any {
-      return this.upload_url;
+      return this.oembed_data;
   };
 
   //set accessor including call the onchange callback
   set value(v: any) {
-      if (v !== this.upload_url) {
-          this.upload_url = v;
-          this.file_uploaded = true;
+      if (v !== this.oembed_data) {
+          this.oembed_data = v;
+          this.oembed_done = true;
           this.onChangeCallback(v);
       }
   }
@@ -62,12 +63,12 @@ export class MnOembedComponent implements ControlValueAccessor {
 
   //From ControlValueAccessor interface
   writeValue(value: any) {
-      if (value !== this.upload_url) {
-          this.upload_url = value;
+      if (value !== this.oembed_data) {
+          this.oembed_data = value;
           if(value == "" || value == null || value == undefined)
-          this.file_uploaded = false;
+          this.oembed_done = false;
           else 
-          this.file_uploaded = true;
+          this.oembed_done = true;
       }
   }
 

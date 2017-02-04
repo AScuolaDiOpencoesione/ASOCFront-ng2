@@ -6,11 +6,13 @@ import { MnProfileService } from '../mn-profile.service';
   templateUrl: './mn-reset.component.html',
   styleUrls: ['./mn-reset.component.css']
 })
-export class MnResetComponent implements OnInit {
+export class MnResetComponent {
 
   email;
 
   constructor(private router: Router, private profile:MnProfileService) { }
+
+
 
   recover(){
     this.profile.password_reset(this.email).then(x=>{
